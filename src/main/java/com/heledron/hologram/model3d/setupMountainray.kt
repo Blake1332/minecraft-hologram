@@ -9,9 +9,12 @@ import com.heledron.hologram.utilities.images.map
 import com.heledron.hologram.utilities.model.ObjMesh
 import com.heledron.hologram.utilities.model.parseObjFileContents
 import com.heledron.hologram.utilities.model.triangulate
+import com.heledron.hologram.utilities.model.optimizeTriangles
 import com.heledron.hologram.utilities.playSound
 import com.heledron.hologram.utilities.requireResource
 import com.heledron.hologram.utilities.sendActionBar
+import com.heledron.hologram.utilities.requireCommand
+import com.heledron.hologram.utilities.spawnEntity
 import org.bukkit.Color
 import org.bukkit.Material
 import org.bukkit.Sound
@@ -61,6 +64,101 @@ fun setup3DModels() {
         emission = flatColorImage(Color.BLACK),
         matrix = Matrix4f().translate(0f, .5f, 0f).scale(.5f)
     )
+
+    //3dsummon command
+    val availableModels = listOf(
+        "mountainray", "mountainray_juvenile", "utah_teapot", "suzanne", 
+    )
+
+    requireCommand("3dsummon").apply {
+        setExecutor { sender, _, _, args ->
+            if (sender !is org.bukkit.entity.Player) {
+                sender.sendMessage("This command can only be used by players.")
+                return@setExecutor true
+            }
+
+            if (args.isEmpty()) {
+                sender.sendMessage("Usage: /3dsummon <model>")
+                sender.sendMessage("Available models: ${availableModels.joinToString(", ")}")
+                return@setExecutor true
+            }
+
+            val modelName = args[0]
+            if (modelName !in availableModels) {
+                sender.sendMessage("Unknown model: $modelName")
+                sender.sendMessage("Available models: ${availableModels.joinToString(", ")}")
+                return@setExecutor true
+            }
+
+            // Spawn a marker entity with the model tag
+            spawnEntity(sender.location, org.bukkit.entity.Marker::class.java) { marker ->
+                marker.addScoreboardTag(modelName)
+            }
+
+            sender.sendMessage("Summoned $modelName at your location!")
+            true
+        }
+
+        setTabCompleter { _, _, _, args ->
+            if (args.size == 1) {
+                availableModels.filter { it.startsWith(args[0], true) }
+            } else {
+                emptyList()
+            }
+        }
+    }
+
+    //3dremove command
+    requireCommand("3dremove").apply {
+        setExecutor { sender, _, _, args ->
+            if (args.isEmpty()) {
+                sender.sendMessage("Usage: /3dremove <model>")
+                sender.sendMessage("Available models: ${availableModels.joinToString(", ")}")
+                sender.sendMessage("Use 'all' to remove all 3D models")
+                return@setExecutor true
+            }
+
+            val modelName = args[0]
+            
+            if (modelName == "all") {
+                // Remove all 3D models
+                var totalRemoved = 0
+                for (model in availableModels) {
+                    val entities = org.bukkit.Bukkit.getServer().worlds.flatMap { it.entities }
+                        .filter { it.scoreboardTags.contains(model) }
+                    entities.forEach { it.remove() }
+                    totalRemoved += entities.size
+                }
+                sender.sendMessage("Removed $totalRemoved 3D models!")
+                return@setExecutor true
+            }
+
+            if (modelName !in availableModels) {
+                sender.sendMessage("Unknown model: $modelName")
+                sender.sendMessage("Available models: ${availableModels.joinToString(", ")}")
+                sender.sendMessage("Use 'all' to remove all 3D models")
+                return@setExecutor true
+            }
+
+            // Remove specific model type
+            val entities = org.bukkit.Bukkit.getServer().worlds.flatMap { it.entities }
+                .filter { it.scoreboardTags.contains(modelName) }
+            
+            entities.forEach { it.remove() }
+            sender.sendMessage("Removed ${entities.size} $modelName model(s)!")
+            true
+        }
+
+        setTabCompleter { _, _, _, args ->
+            if (args.size == 1) {
+                val options = mutableListOf("all")
+                options.addAll(availableModels)
+                options.filter { it.startsWith(args[0], true) }
+            } else {
+                emptyList()
+            }
+        }
+    }
 
     val changeShaderItemComponent = CustomItemComponent("change_shader")
     customItemRegistry += createNamedItem(Material.EMERALD, "Change Shader").attach(changeShaderItemComponent)
