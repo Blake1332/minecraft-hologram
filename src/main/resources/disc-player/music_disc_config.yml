@@ -1,0 +1,114 @@
+# Music Disc Configuration
+# This file configures the video player for music discs
+
+# Video Settings
+video:
+  # Directory containing video frames (relative to plugin data folder)
+  frames_directory: "video_frames"
+  
+  # Video dimensions (width x height in pixels)
+  width: 64
+  height: 64
+  
+  # Frame rate (frames per second)
+  frame_rate: 30
+  
+  # Scale of the video display (1.0 = normal size)
+  scale: 2.0
+  
+  # Height above jukebox where video is displayed
+  height_above_jukebox: 3.0
+  
+  # X and Z offset from jukebox center
+  x_offset: 0.0
+  z_offset: 0.0
+  
+  # Whether to loop the video when it ends
+  loop: true
+  
+  # Whether to make the video double-sided (visible from both sides)
+  double_sided: false
+  
+  # Whether to make the video billboard (always face the player)
+  billboard: true
+  
+  # Brightness of the video display (0-15)
+  brightness: 15
+  
+  # Teleport duration for display entities (in ticks)
+  teleport_duration: 5
+  
+  # Interpolation duration for display entities (in ticks)
+  interpolation_duration: 5
+
+# Audio Settings
+audio:
+  # Whether to use custom audio file instead of vanilla MUSIC_DISC_BLOCKS
+  use_custom_audio: false
+  
+  # Custom audio file path (relative to plugin data folder)
+  custom_audio_file: "custom_video.ogg"
+  
+  # Volume for custom audio (0.0 - 1.0)
+  volume: 1.0
+
+# Disc Settings
+disc:
+  # Whether to use a custom video disc instead of MUSIC_DISC_BLOCKS
+  # Options: true (use custom disc), false (use MUSIC_DISC_BLOCKS)
+  use_custom_disc: true
+  
+  # Custom disc name (only used if use_custom_disc is true)
+  custom_disc_name: "§6Video Music Disc"
+  
+  # Custom disc lore (only used if use_custom_disc is true)
+  custom_disc_lore:
+    - "§7A mysterious music disc"
+    - "§7that plays a custom video"
+    - "§7when inserted into a jukebox."
+
+# Dropper Detection
+dropper:
+  # Whether to detect when droppers automatically insert discs into jukeboxes
+  detect_insertion: true
+  
+  # Whether to accept regular MUSIC_DISC_BLOCKS items from droppers (in addition to custom discs)
+  accept_regular_discs: true
+
+# Display Settings
+display:
+  # Whether text displays should always face the player (billboard mode)
+  # Options: true (always face player), false (fixed orientation)
+  billboard: false
+
+  # Whether to create double-sided displays (visible from both front and back)
+  # Options: true (double-sided, uses 2x entities(more lag)), false (single-sided, uses less entities)
+  double_sided: false
+
+  # Brightness of the display (0-15)
+  brightness: 15
+
+  # Teleport duration for smooth transitions
+  teleport_duration: 1
+
+  # Interpolation duration for smooth transitions
+  interpolation_duration: 1
+
+ # Position Settings
+position:
+  # Height above jukebox (in blocks)
+  height_above_jukebox: 1.5
+  # X offset from jukebox center
+  x_offset: 0.5
+  # Z offset from jukebox center
+  z_offset: 0.5
+
+# File Settings
+files:
+  # Directory containing video frames
+  frames_directory: plugins/Hologram/video_frames
+  # Supported image formats
+  supported_formats:
+    - png
+    - jpg
+    - jpeg 
