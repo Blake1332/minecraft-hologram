@@ -1,0 +1,10 @@
+{
+  "pack": {
+    "pack_format": 15,
+    "supported_formats": {
+      "min_inclusive": 1,
+      "max_inclusive": 1000
+    },
+    "description": "Bad Apple audio Resource Pack for Minecraft visual disc-player"
+  }
+}
