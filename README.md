@@ -1,4 +1,16 @@
 # Hologram
+## New Changes
+### Ability to play video feedback using a jukebox and a music disk.
+Use /items to get a customized disk. A resource pack is required if you want audio to play. The resource pack can be installed locally or server prompted.
+The video mp4 should be cut into frames using either ffpmg or an inculded python file in src/main/resources.(Named frame_00000, frame_000001 etc.)
+Said frames need to be added into your server in a directory in plugins/Hologram/music_disc_frames.
+Vanilla clients will be able to see the video live, currently work in progress to remove some of the hops to jump through to set up!
+
+### New command 3d summon
+Adds a new interface to do all the previous commands below with out having to type
+The ability to just click a gui in game to summon and remove display e. objects
+
+
 ## Introduction
 Hologram plugin for Minecraft.
 
